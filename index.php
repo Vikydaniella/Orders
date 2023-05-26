@@ -71,7 +71,7 @@ Sum the cost of orders that were placed in GBP and were shipped to Essex?*/
                         $totalFree = $totalFree +1;
                      }
                   }
-                  echo $totalFree;
+                  echo $totalFree;//4
                     ?>
 
                   </dd>
@@ -93,7 +93,7 @@ Sum the cost of orders that were placed in GBP and were shipped to Essex?*/
                         $CurrencyG = $CurrencyG +1;
                      }
                   }
-                  echo $CurrencyG;
+                  echo $CurrencyG;//118
                     ?>
                   </dd>
                 </dl>
@@ -114,7 +114,7 @@ Sum the cost of orders that were placed in GBP and were shipped to Essex?*/
                         $shippedEss = $shippedEss +1;
                      }
                   }
-                  echo $shippedEss;
+                  echo $shippedEss;//14
                     ?>
                   </dd>
                 </dl>
@@ -142,7 +142,7 @@ Sum the cost of orders that were placed in GBP and were shipped to Essex?*/
                         $CurrencyG = $CurrencyG +1;
                      }
                   }
-                  echo $CurrencyG;
+                  echo $CurrencyG;//63
                     ?>
                   </dd>
                 </dl>
@@ -164,7 +164,7 @@ Sum the cost of orders that were placed in GBP and were shipped to Essex?*/
                         $CurrencyG = $CurrencyG +1;
                      }
                   }
-                  echo $CurrencyG;
+                  echo $CurrencyG;//118
                     ?>
                   </dd>
                 </dl>
@@ -183,15 +183,9 @@ Sum the cost of orders that were placed in GBP and were shipped to Essex?*/
 
                      if ($order['currency']=="GBP" && $order['customer']['shipping_address']['county']=="Essex"){
                         $CurrencyG = $CurrencyG +1;
-                     }  
-                       $total =0;
-                      function totalAmount($totalPrice){
-                      global $total;
-                      $total += $totalPrice;
-                      echo $total;
-}
+                     }
                   }
-                  echo $CurrencyG;
+                  echo $CurrencyG;//5
                     ?>
                   </dd>
                 </dl>
