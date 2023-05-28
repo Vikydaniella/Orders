@@ -135,13 +135,13 @@ Sum the cost of orders that were placed in GBP and were shipped to Essex?*/
                   </dt>
                   <dd class="mt-1 text-3xl leading-9 font-semibold text-gray-900">
                   <?php 
-                    $CurrencyG=0;
+                  $CurrencyG=0;
                   foreach ($orders as $order) { 
-
                      if ($order['currency']=="GBP" && $order['price']>= 100){
-                        $CurrencyG = $CurrencyG +1;
+                      $CurrencyG = $CurrencyG =+1;  
+                    }
+                      
                      }
-                  }
                   echo $CurrencyG;//63
                     ?>
                   </dd>
@@ -184,6 +184,7 @@ Sum the cost of orders that were placed in GBP and were shipped to Essex?*/
                      if ($order['currency']=="GBP" && $order['customer']['shipping_address']['county']=="Essex"){
                         $CurrencyG = $CurrencyG +1;
                      }
+                     
                   }
                   echo $CurrencyG;//5
                     ?>
