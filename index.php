@@ -4,7 +4,7 @@
 // require('vendor/autoload.php');
 
 function load_json($path) {
-    return json_decode(file_get_contents(__DIR__ . '/' . $path), true);
+    return json_decode(file_get_contents(__DIR__ . '/' . $path),true);
 }
 
 $orders = load_json("./orders.json");
@@ -135,14 +135,13 @@ Sum the cost of orders that were placed in GBP and were shipped to Essex?*/
                   </dt>
                   <dd class="mt-1 text-3xl leading-9 font-semibold text-gray-900">
                   <?php 
-                  $CurrencyG=0;
-                  foreach ($orders as $order) { 
-                     if ($order['currency']=="GBP" && $order['price']>= 100){
-                      $CurrencyG = $CurrencyG =+1;  
-                    }
-                      
-                     }
-                  echo $CurrencyG;//63
+                  $gbpAboveHundred = array_filter($orders,function($order){
+                    return $order['currency']=="GBP" && $order['price']>= 100.00;
+                  });
+                  $totalGbpAboveHundred = array_reduce($gbpAboveHundred, function($order, $initial){
+                  return $order['price']+ $initial['price'];
+                  },["price" => 0]);
+                  echo $totalGbpAboveHundred;//957.52
                     ?>
                   </dd>
                 </dl>
@@ -156,16 +155,14 @@ Sum the cost of orders that were placed in GBP and were shipped to Essex?*/
                   </dt>
                   <dd class="mt-1 text-3xl leading-9 font-semibold text-gray-900">
                   <?php 
-            
-                    $CurrencyG=0;
-                  foreach ($orders as $order) { 
-
-                     if ($order['currency']=="GBP"){
-                        $CurrencyG = $CurrencyG +1;
-                     }
-                  }
-                  echo $CurrencyG;//118
-                    ?>
+                  $currencyGBP = array_filter($orders,function($order){
+                    return $order['currency']=="GBP" && $order['price']>= 1;
+                  });
+                  $totalCurrencyGBP = array_reduce($currencyGBP, function($order, $initial){
+                  return $order['price']+ $initial['price'];
+                  },["price" => 0]);
+                  echo $totalCurrencyGBP;//957.52
+                  ?>
                   </dd>
                 </dl>
               </div>
@@ -178,15 +175,13 @@ Sum the cost of orders that were placed in GBP and were shipped to Essex?*/
                   </dt>
                   <dd class="mt-1 text-3xl leading-9 font-semibold text-gray-900">
                   <?php 
-                    $CurrencyG=0;
-                  foreach ($orders as $order) { 
-
-                     if ($order['currency']=="GBP" && $order['customer']['shipping_address']['county']=="Essex"){
-                        $CurrencyG = $CurrencyG +1;
-                     }
-                     
-                  }
-                  echo $CurrencyG;//5
+                    $gbpEssex = array_filter($orders,function($order){
+                    return $order['currency']=="GBP" && $order['customer']['shipping_address']['county']=="Essex";
+                  });
+                  $totalGbpEssex = array_reduce($gbpEssex, function($order, $initial){
+                  return $order['price']+ $initial['price'];
+                  },["price" => 0]);
+                  echo $totalGbpEssex;//503.38
                     ?>
                   </dd>
                 </dl>
