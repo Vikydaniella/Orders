@@ -8,15 +8,23 @@ function load_json($path) {
 }
 
 $orders = load_json("./orders.json");
-?>
 
-// Start your implementation here
-/*Count the number of orders that were FREE?
-Count the number of orders that were placed in GBP?
-Count the number of orders that were shipped to Essex?
-Sum the cost of orders that were placed in GBP and were £100 or more?
-Sum the cost of orders that were placed in GBP?
-Sum the cost of orders that were placed in GBP and were shipped to Essex?*/
+$countOrders=0;
+$currencyG=0;
+$shippedEss=0;
+foreach ($orders as $order){
+  if ($order['price']== 0){
+    $countOrders+=1;
+  }
+  if ($order['currency']=="GBP"){
+  $currencyG+=1;
+   }
+   if ($order['customer']['shipping_address']['county']=="Essex"){
+  $shippedEss+=1;
+}
+}
+
+?>
 
 <!DOCTYPE html>
 <html>
@@ -64,16 +72,8 @@ Sum the cost of orders that were placed in GBP and were shipped to Essex?*/
                   </dt>
                   <dd class="mt-1 text-3xl leading-9 font-semibold text-gray-900">
                     <?php 
-                    $totalFree=0;
-                  foreach ($orders as $order) { 
-
-                     if ($order['price']=="0.00"){
-                        $totalFree = $totalFree +1;
-                     }
-                  }
-                  echo $totalFree;//4
+                    echo $countOrders;
                     ?>
-
                   </dd>
                 </dl>
               </div>
@@ -85,15 +85,8 @@ Sum the cost of orders that were placed in GBP and were shipped to Essex?*/
                     Placed in GBP
                   </dt>
                   <dd class="mt-1 text-3xl leading-9 font-semibold text-gray-900">
-                  <?php 
-                    $CurrencyG=0;
-                  foreach ($orders as $order) { 
-
-                     if ($order['currency']=="GBP"){
-                        $CurrencyG = $CurrencyG +1;
-                     }
-                  }
-                  echo $CurrencyG;//118
+                  <?php
+                  echo $currencyG;//118
                     ?>
                   </dd>
                 </dl>
@@ -106,14 +99,7 @@ Sum the cost of orders that were placed in GBP and were shipped to Essex?*/
                     Shipped to Essex
                   </dt>
                   <dd class="mt-1 text-3xl leading-9 font-semibold text-gray-900">
-                  <?php 
-                    $shippedEss=0;
-                  foreach ($orders as $order) { 
-
-                     if ($order['customer']['shipping_address']['county']=="Essex"){
-                        $shippedEss = $shippedEss +1;
-                     }
-                  }
+                  <?php
                   echo $shippedEss;//14
                     ?>
                   </dd>
@@ -157,14 +143,14 @@ Sum the cost of orders that were placed in GBP and were shipped to Essex?*/
                   </dt>
                   <dd class="mt-1 text-3xl leading-9 font-semibold text-gray-900">
                   <?php 
-                   $CurrencyGBP = array_filter($orders,function($order){
-                     return $order['currency']=="GBP" && $order['price']>= 0.01;
-                   });
-                   $selectedPrices = array_column($CurrencyGBP, 'price');
-                   $totalGBPPrice=0;
-                   foreach ($selectedPrices as $selectedPrice) {
-                         $totalGBPPrice = $selectedPrice +$totalGBPPrice;
-                      }
+                  $CurrencyGBP = array_filter($orders,function($order){
+                    return $order['currency']=="GBP" && $order['price']>= 0.01;
+                  });
+                  $selectedPrices = array_column($CurrencyGBP, 'price');
+                  $totalGBPPrice=0;
+                  foreach ($selectedPrices as $selectedPrice) {
+                        $totalGBPPrice = $selectedPrice +$totalGBPPrice;
+                     }
                      echo $totalGBPPrice;//37501.07
                   ?>
                   </dd>
