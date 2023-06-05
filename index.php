@@ -22,8 +22,33 @@ foreach ($orders as $order){
    if ($order['customer']['shipping_address']['county']=="Essex"){
   $shippedEss+=1;
 }
-}
+$gbpAboveHundred = array_filter($orders,function($order){
+  return $order['currency']=="GBP" && $order['price']>= 100.00;
+});
+$CurrencyGBP = array_filter($orders,function($order){
+  return $order['currency']=="GBP" && $order['price']>= 0.01;
+});
+$gbpEssex = array_filter($orders,function($order){
+  return $order['currency']=="GBP" && $order['customer']['shipping_address']['county']=="Essex";
+});
 
+$extractedPrices = array_column($gbpAboveHundred,'price');
+$totalPrice=0;
+$selectedPrices = array_column($CurrencyGBP, 'price');
+$totalGBPPrice=0;
+$extricatedPrices = array_column($gbpEssex, 'price');
+$totalGBPEssexPrice=0;
+
+foreach ($extractedPrices as $extractedPrice) {
+      $totalPrice = $extractedPrice +$totalPrice;  
+}
+foreach ($selectedPrices as $selectedPrice) {
+$totalGBPPrice = $selectedPrice +$totalGBPPrice;
+}
+foreach ($extricatedPrices as $extricatedPrice) {
+$totalGBPEssexPrice = $extricatedPrice +$totalGBPEssexPrice;
+}
+}
 ?>
 
 <!DOCTYPE html>
@@ -121,14 +146,6 @@ foreach ($orders as $order){
                   </dt>
                   <dd class="mt-1 text-3xl leading-9 font-semibold text-gray-900">
                   <?php 
-                  $gbpAboveHundred = array_filter($orders,function($order){
-                    return $order['currency']=="GBP" && $order['price']>= 100.00;
-                  });
-                  $extractedPrices = array_column($gbpAboveHundred, 'price');
-                  $totalPrice=0;
-                  foreach ($extractedPrices as $extractedPrice) {
-                        $totalPrice = $extractedPrice +$totalPrice;
-                     }
                     echo $totalPrice;//35596.85
                     ?>
                   </dd>
@@ -142,15 +159,7 @@ foreach ($orders as $order){
                     Placed in GBP
                   </dt>
                   <dd class="mt-1 text-3xl leading-9 font-semibold text-gray-900">
-                  <?php 
-                  $CurrencyGBP = array_filter($orders,function($order){
-                    return $order['currency']=="GBP" && $order['price']>= 0.01;
-                  });
-                  $selectedPrices = array_column($CurrencyGBP, 'price');
-                  $totalGBPPrice=0;
-                  foreach ($selectedPrices as $selectedPrice) {
-                        $totalGBPPrice = $selectedPrice +$totalGBPPrice;
-                     }
+                  <?php
                      echo $totalGBPPrice;//37501.07
                   ?>
                   </dd>
@@ -165,14 +174,6 @@ foreach ($orders as $order){
                   </dt>
                   <dd class="mt-1 text-3xl leading-9 font-semibold text-gray-900">
                   <?php 
-                  $gbpEssex = array_filter($orders,function($order){
-                    return $order['currency']=="GBP" && $order['customer']['shipping_address']['county']=="Essex";
-                  });
-                  $extricatedPrices = array_column($gbpEssex, 'price');
-                  $totalGBPEssexPrice=0;
-                  foreach ($extricatedPrices as $extricatedPrice) {
-                        $totalGBPEssexPrice = $extricatedPrice +$totalGBPEssexPrice;
-                     }
                     echo $totalGBPEssexPrice;//704.74
                     ?>
                   </dd>
