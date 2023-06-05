@@ -12,41 +12,27 @@ $orders = load_json("./orders.json");
 $countOrders=0;
 $currencyG=0;
 $shippedEss=0;
+$totalPrice=0;
+$totalGBPPrice=0;
+$totalGBPEssexPrice=0;
 foreach ($orders as $order){
   if ($order['price']== 0){
     $countOrders+=1;
   }
   if ($order['currency']=="GBP"){
-  $currencyG+=1;
-   }
-   if ($order['customer']['shipping_address']['county']=="Essex"){
-  $shippedEss+=1;
-}
-$gbpAboveHundred = array_filter($orders,function($order){
-  return $order['currency']=="GBP" && $order['price']>= 100.00;
-});
-$CurrencyGBP = array_filter($orders,function($order){
-  return $order['currency']=="GBP" && $order['price']>= 0.01;
-});
-$gbpEssex = array_filter($orders,function($order){
-  return $order['currency']=="GBP" && $order['customer']['shipping_address']['county']=="Essex";
-});
-
-$extractedPrices = array_column($gbpAboveHundred,'price');
-$totalPrice=0;
-$selectedPrices = array_column($CurrencyGBP, 'price');
-$totalGBPPrice=0;
-$extricatedPrices = array_column($gbpEssex, 'price');
-$totalGBPEssexPrice=0;
-
-foreach ($extractedPrices as $extractedPrice) {
-      $totalPrice = $extractedPrice +$totalPrice;  
-}
-foreach ($selectedPrices as $selectedPrice) {
-$totalGBPPrice = $selectedPrice +$totalGBPPrice;
-}
-foreach ($extricatedPrices as $extricatedPrice) {
-$totalGBPEssexPrice = $extricatedPrice +$totalGBPEssexPrice;
+    $currencyG+=1;
+    if($order['price']>= 100.00){
+      $totalPrice+=$order['price'];
+    }
+    if ($order['price']>= 0){
+    $totalGBPPrice+=$order['price'];
+  }
+  }
+  if ($order['customer']['shipping_address']['county']=="Essex"){
+    $shippedEss+=1;
+    if($order['currency']=="GBP"&& $order['price']>= 0){
+      $totalGBPEssexPrice+=$order['price'];
+    }
 }
 }
 ?>
