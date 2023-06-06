@@ -9,19 +9,14 @@ function load_json($path) {
 
 $orders = load_json("./orders.json");
 
-$countOrders=0;
-$currencyG=0;
-$shippedEss=0;
-$totalPrice=0;
-$totalGBPPrice=0;
-$totalGBPEssexPrice=0;
+$countOrders = $currencyG = $shippedEss = $totalPrice = $totalGBPPrice = $totalGBPEssexPrice = 0;
 foreach ($orders as $order){
   if ($order['price']== 0){
     $countOrders+=1;
   }
   if ($order['currency']=="GBP"){
     $currencyG+=1;
-    if($order['price']>= 100.00){
+    if($order['price']>= 100){
       $totalPrice+=$order['price'];
     }
     if ($order['price']>= 0){
@@ -34,6 +29,10 @@ foreach ($orders as $order){
       $totalGBPEssexPrice+=$order['price'];
     }
 }
+}
+function format_currency(float $totalNumber) :string{
+  $formattedAmount = number_format($totalNumber,2);
+return "£" . $formattedAmount;
 }
 ?>
 
@@ -82,9 +81,7 @@ foreach ($orders as $order){
                     FREE
                   </dt>
                   <dd class="mt-1 text-3xl leading-9 font-semibold text-gray-900">
-                    <?php 
-                    echo $countOrders;
-                    ?>
+                    <?= $countOrders ?>
                   </dd>
                 </dl>
               </div>
@@ -96,9 +93,7 @@ foreach ($orders as $order){
                     Placed in GBP
                   </dt>
                   <dd class="mt-1 text-3xl leading-9 font-semibold text-gray-900">
-                  <?php
-                  echo $currencyG;//118
-                    ?>
+                  <?= $currencyG//118 ?>
                   </dd>
                 </dl>
               </div>
@@ -110,9 +105,7 @@ foreach ($orders as $order){
                     Shipped to Essex
                   </dt>
                   <dd class="mt-1 text-3xl leading-9 font-semibold text-gray-900">
-                  <?php
-                  echo $shippedEss;//14
-                    ?>
+                  <?= $shippedEss;//14 ?>
                   </dd>
                 </dl>
               </div>
@@ -131,9 +124,7 @@ foreach ($orders as $order){
                     Placed in GBP and were £100 or more
                   </dt>
                   <dd class="mt-1 text-3xl leading-9 font-semibold text-gray-900">
-                  <?php 
-                    echo $totalPrice;//35596.85
-                    ?>
+                  <?= format_currency($totalPrice)//35596.85 ?>
                   </dd>
                 </dl>
               </div>
@@ -145,9 +136,7 @@ foreach ($orders as $order){
                     Placed in GBP
                   </dt>
                   <dd class="mt-1 text-3xl leading-9 font-semibold text-gray-900">
-                  <?php
-                     echo $totalGBPPrice;//37501.07
-                  ?>
+                  <?= format_currency($totalGBPPrice)//37501.07 ?>
                   </dd>
                 </dl>
               </div>
@@ -159,9 +148,7 @@ foreach ($orders as $order){
                     Placed in GBP and were shipped to Essex
                   </dt>
                   <dd class="mt-1 text-3xl leading-9 font-semibold text-gray-900">
-                  <?php 
-                    echo $totalGBPEssexPrice;//704.74
-                    ?>
+                  <?= format_currency($totalGBPEssexPrice)//704.74 ?>
                   </dd>
                 </dl>
               </div>
